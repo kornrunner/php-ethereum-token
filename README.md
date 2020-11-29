@@ -33,7 +33,9 @@ $hexAmount = $token->hexAmount($usdt, $amount);
 $data = $token->getTransferData($to, $hexAmount);
 // 0xa9059cbb0000000000000000000000001a8c8adfbe1c59e8b58cc0d515f07b7225f51c720000000000000000000000000000000000000000000000000000000001312d00
 
-$transaction = new Transaction($nonce, $gasPrice, $gasLimit, $usdt::ADDRESS, $data);
+$value = 0;
+
+$transaction = new Transaction($nonce, $gasPrice, $gasLimit, $usdt::ADDRESS,$value, $data);
 $transaction->getRaw($privateKey);
 // f8a9048503f5476a0083027f4b94dac17f958d2ee523a2206206994597c13d831ec7b844a9059cbb0000000000000000000000001a8c8adfbe1c59e8b58cc0d515f07b7225f51c720000000000000000000000000000000000000000000000000000000001312d00801ba03e141ea4233ec00bb3a80d7fea5f774b736772851b7bad18453d0f3c6097c42e9fa6eb47b6bead6a76d7db12809e2c916df999d7b99b613fcaa135abd8a0078e
 ```
