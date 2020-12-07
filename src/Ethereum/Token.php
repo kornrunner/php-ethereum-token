@@ -44,7 +44,7 @@ class Token
     private static function bcdechex(string $dec): string {
         $end = bcmod($dec, '16');
         $remainder = bcdiv(bcsub($dec, $end), '16');
-        return $remainder == 0 ? dechex($end) : static::bcdechex($remainder) . dechex($end);
+        return $remainder == 0 ? dechex((int) $end) : static::bcdechex($remainder) . dechex((int) $end);
     }
 
 }
