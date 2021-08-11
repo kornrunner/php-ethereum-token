@@ -1,4 +1,4 @@
-# php-ethereum-token [![Build status](https://ci.appveyor.com/api/projects/status/d1qm90h668elbtc4/branch/master?svg=true)](https://ci.appveyor.com/project/kornrunner/php-ethereum-token/branch/master) [![Coverage Status](https://coveralls.io/repos/github/kornrunner/php-ethereum-token/badge.svg?branch=master)](https://coveralls.io/github/kornrunner/php-ethereum-token?branch=master) [![Latest Stable Version](https://poser.pugx.org/kornrunner/ethereum-token/v/stable)](https://packagist.org/packages/kornrunner/ethereum-token)
+# php-ethereum-token [![Tests](https://github.com/kornrunner/php-ethereum-token/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/kornrunner/php-ethereum-token/actions/workflows/tests.yml) [![Coverage Status](https://coveralls.io/repos/github/kornrunner/php-ethereum-token/badge.svg?branch=master)](https://coveralls.io/github/kornrunner/php-ethereum-token?branch=master) [![Latest Stable Version](https://poser.pugx.org/kornrunner/ethereum-token/v/stable)](https://packagist.org/packages/kornrunner/ethereum-token)
 
 PHP Ethereum Token Utils
 
