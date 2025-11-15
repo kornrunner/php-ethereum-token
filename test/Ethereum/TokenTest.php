@@ -198,4 +198,90 @@ class TokenTest extends TestCase {
         );
     }
 
+    public function testTransferFromInvalidFromAddress(): void {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Invalid hex provided');
+        $token = new Token;
+        $token->getTransferFromData('test', '677a637ec8f0bb2c8d33c6ace08054e521bff4b5', '');
+    }
+
+    public function testTransferFromInvalidToAddress(): void {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Invalid address provided');
+        $token = new Token;
+        $token->getTransferFromData('677a637ec8f0bb2c8d33c6ace08054e521bff4b5', 'aa', '');
+    }
+
+    public function testTransferFromInvalidAmount(): void {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Invalid hex provided');
+        $token = new Token;
+        $token->getTransferFromData('677a637ec8f0bb2c8d33c6ace08054e521bff4b5', '677a637ec8f0bb2c8d33c6ace08054e521bff4b5', '');
+    }
+
+    public function testGetTransferFromData(): void {
+        $token = new Token;
+        $this->assertSame('0x23b872dd000000000000000000000000d9040b8a1f12a40511ac1f7b994a21dd08ceac20000000000000000000000000677a637ec8f0bb2c8d33c6ace08054e521bff4b500000000000000000000000000000000000000000000000000000000000000ac',
+            $token->getTransferFromData('0xd9040b8a1f12a40511ac1f7b994a21dd08ceac20', '0x677a637ec8f0bb2c8d33c6ace08054e521bff4b5', 'ac'));
+        $this->assertSame('0x23b872dd000000000000000000000000d9040b8a1f12a40511ac1f7b994a21dd08ceac20000000000000000000000000677a637ec8f0bb2c8d33c6ace08054e521bff4b500000000000000000000000000000000000000000000000000000000000000ac',
+            $token->getTransferFromData('d9040b8a1f12a40511ac1f7b994a21dd08ceac20', '677a637ec8f0bb2c8d33c6ace08054e521bff4b5', 'ac'));
+        $this->assertSame('0x23b872dd000000000000000000000000d9040b8a1f12a40511ac1f7b994a21dd08ceac20000000000000000000000000677a637ec8f0bb2c8d33c6ace08054e521bff4b500000000000000000000000000000000000000000000000000000000000000ac',
+            $token->getTransferFromData('d9040b8a1f12a40511ac1f7b994a21dd08ceac20', '677a637ec8f0bb2c8d33c6ace08054e521bff4b5', '0xac'));
+        $this->assertSame('0x23b872dd000000000000000000000000d9040b8a1f12a40511ac1f7b994a21dd08ceac20000000000000000000000000677a637ec8f0bb2c8d33c6ace08054e521bff4b50000000000000000000000000000000000000000000000000de0b6b3a7640000',
+            $token->getTransferFromData('0xd9040b8a1f12a40511ac1f7b994a21dd08ceac20', '0x677a637ec8f0bb2c8d33c6ace08054e521bff4b5', $token->hexAmount(new Token\AE, 1)));
+        $this->assertSame('0x23b872dd000000000000000000000000d9040b8a1f12a40511ac1f7b994a21dd08ceac20000000000000000000000000677a637ec8f0bb2c8d33c6ace08054e521bff4b50000000000000000000000000000000000000000000000000000000000000bb8',
+            $token->getTransferFromData('0xd9040b8a1f12a40511ac1f7b994a21dd08ceac20', '0x677a637ec8f0bb2c8d33c6ace08054e521bff4b5', $token->hexAmount(new Token\USDT, 0.003)));
+    }
+
+    public function testAllowanceInvalidOwnerAddress(): void {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Invalid hex provided');
+        $token = new Token;
+        $token->getAllowanceData('test', '677a637ec8f0bb2c8d33c6ace08054e521bff4b5');
+    }
+
+    public function testAllowanceInvalidSpenderAddress(): void {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Invalid address provided');
+        $token = new Token;
+        $token->getAllowanceData('677a637ec8f0bb2c8d33c6ace08054e521bff4b5', 'aa');
+    }
+
+    public function testGetAllowanceData(): void {
+        $token = new Token;
+        $this->assertSame('0xdd62ed3e000000000000000000000000d9040b8a1f12a40511ac1f7b994a21dd08ceac20000000000000000000000000677a637ec8f0bb2c8d33c6ace08054e521bff4b5',
+            $token->getAllowanceData('0xd9040b8a1f12a40511ac1f7b994a21dd08ceac20', '0x677a637ec8f0bb2c8d33c6ace08054e521bff4b5'));
+        $this->assertSame('0xdd62ed3e000000000000000000000000d9040b8a1f12a40511ac1f7b994a21dd08ceac20000000000000000000000000677a637ec8f0bb2c8d33c6ace08054e521bff4b5',
+            $token->getAllowanceData('d9040b8a1f12a40511ac1f7b994a21dd08ceac20', '677a637ec8f0bb2c8d33c6ace08054e521bff4b5'));
+    }
+
+    public function testBalanceOfInvalidAddress(): void {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Invalid hex provided');
+        $token = new Token;
+        $token->getBalanceOfData('test');
+    }
+
+    public function testBalanceOfInvalidAddressLength(): void {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Invalid address provided');
+        $token = new Token;
+        $token->getBalanceOfData('aa');
+    }
+
+    public function testGetBalanceOfData(): void {
+        $token = new Token;
+        $this->assertSame('0x70a08231000000000000000000000000677a637ec8f0bb2c8d33c6ace08054e521bff4b5',
+            $token->getBalanceOfData('0x677a637ec8f0bb2c8d33c6ace08054e521bff4b5'));
+        $this->assertSame('0x70a08231000000000000000000000000677a637ec8f0bb2c8d33c6ace08054e521bff4b5',
+            $token->getBalanceOfData('677a637ec8f0bb2c8d33c6ace08054e521bff4b5'));
+        $this->assertSame('0x70a08231000000000000000000000000d9040b8a1f12a40511ac1f7b994a21dd08ceac20',
+            $token->getBalanceOfData('0xd9040b8a1f12a40511ac1f7b994a21dd08ceac20'));
+    }
+
+    public function testGetTotalSupplyData(): void {
+        $token = new Token;
+        $this->assertSame('0x18160ddd', $token->getTotalSupplyData());
+    }
+
 }

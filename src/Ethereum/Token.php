@@ -37,6 +37,36 @@ class Token
         );
     }
 
+    public function getTransferFromData(string $fromAddress, string $toAddress, string $hexAmount): string {
+        return sprintf('0x%s%s%s%s',
+            Contract::SIGNATURE_TRANSFER_FROM,
+            str_pad($this->sanitizeAddress($fromAddress), 64, '0', STR_PAD_LEFT),
+            str_pad($this->sanitizeAddress($toAddress), 64, '0', STR_PAD_LEFT),
+            str_pad($this->sanitizeHex($hexAmount), 64, '0', STR_PAD_LEFT)
+        );
+    }
+
+    public function getAllowanceData(string $ownerAddress, string $spenderAddress): string {
+        return sprintf('0x%s%s%s',
+            Contract::SIGNATURE_ALLOWANCE,
+            str_pad($this->sanitizeAddress($ownerAddress), 64, '0', STR_PAD_LEFT),
+            str_pad($this->sanitizeAddress($spenderAddress), 64, '0', STR_PAD_LEFT)
+        );
+    }
+
+    public function getBalanceOfData(string $ownerAddress): string {
+        return sprintf('0x%s%s',
+            Contract::SIGNATURE_BALANCE_OF,
+            str_pad($this->sanitizeAddress($ownerAddress), 64, '0', STR_PAD_LEFT)
+        );
+    }
+
+    public function getTotalSupplyData(): string {
+        return sprintf('0x%s',
+            Contract::SIGNATURE_TOTAL_SUPPLY
+        );
+    }
+
     public function hexAmount(Contract $token, float $amount): string {
         return '0x' . static::bcdechex(bcmul((string) $amount, bcpow('10', strval($token::DECIMALS), 0), 0));
     }

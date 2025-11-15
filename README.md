@@ -96,6 +96,72 @@ $data = $token->getMintData($recipient, $hexAmount);
 // use $data with Transaction as shown above
 ```
 
+### TransferFrom
+
+Transfer tokens from one address to another using allowance:
+
+```php
+use kornrunner\Ethereum\Token;
+use kornrunner\Ethereum\Transaction;
+
+$token = new Token;
+$usdt  = new Token\USDT;
+
+$from = 'd9040b8a1f12a40511ac1f7b994a21dd08ceac20';
+$to = '1a8c8adfbe1c59e8b58cc0d515f07b7225f51c72';
+$amount = 50;
+$hexAmount = $token->hexAmount($usdt, $amount);
+
+$data = $token->getTransferFromData($from, $to, $hexAmount);
+// use $data with Transaction as shown above
+```
+
+### Read-Only Functions
+
+For querying token information (generates ABI-encoded call data):
+
+#### BalanceOf
+
+Get the token balance of an address:
+
+```php
+use kornrunner\Ethereum\Token;
+
+$token = new Token;
+$address = '1a8c8adfbe1c59e8b58cc0d515f07b7225f51c72';
+
+$data = $token->getBalanceOfData($address);
+// 0x70a082310000000000000000000000001a8c8adfbe1c59e8b58cc0d515f07b7225f51c72
+```
+
+#### Allowance
+
+Check how many tokens a spender is allowed to use:
+
+```php
+use kornrunner\Ethereum\Token;
+
+$token = new Token;
+$owner = '1a8c8adfbe1c59e8b58cc0d515f07b7225f51c72';
+$spender = 'd9040b8a1f12a40511ac1f7b994a21dd08ceac20';
+
+$data = $token->getAllowanceData($owner, $spender);
+// 0x...
+```
+
+#### TotalSupply
+
+Get the total supply of tokens:
+
+```php
+use kornrunner\Ethereum\Token;
+
+$token = new Token;
+
+$data = $token->getTotalSupplyData();
+// 0x18160ddd
+```
+
 ## Crypto
 
 [![Ethereum](https://user-images.githubusercontent.com/725986/61891022-0d0c7f00-af09-11e9-829f-096c039bbbfa.png) 0x9c7b7a00972121fb843af7af74526d7eb585b171][Ethereum]
