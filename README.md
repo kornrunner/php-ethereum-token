@@ -12,6 +12,8 @@ $ composer require kornrunner/ethereum-token
 
 To prepare a offline transaction, using `kornrunner/ethereum-offline-raw-tx`
 
+### Transfer
+
 ```php
 use kornrunner\Ethereum\Token;
 use kornrunner\Ethereum\Transaction;
@@ -36,6 +38,62 @@ $data = $token->getTransferData($to, $hexAmount);
 $transaction = new Transaction($nonce, $gasPrice, $gasLimit, $usdt::ADDRESS, '', $data);
 $transaction->getRaw($privateKey);
 // f8a9048503f5476a0083027f4b94dac17f958d2ee523a2206206994597c13d831ec7b844a9059cbb0000000000000000000000001a8c8adfbe1c59e8b58cc0d515f07b7225f51c720000000000000000000000000000000000000000000000000000000001312d00801ba03e141ea4233ec00bb3a80d7fea5f774b736772851b7bad18453d0f3c6097c42e9fa6eb47b6bead6a76d7db12809e2c916df999d7b99b613fcaa135abd8a0078e
+```
+
+### Approve
+
+Approve another address to spend tokens on your behalf:
+
+```php
+use kornrunner\Ethereum\Token;
+use kornrunner\Ethereum\Transaction;
+
+$token = new Token;
+$usdt  = new Token\USDT;
+
+$spender = '1a8c8adfbe1c59e8b58cc0d515f07b7225f51c72';
+$amount = 100;
+$hexAmount = $token->hexAmount($usdt, $amount);
+
+$data = $token->getApproveData($spender, $hexAmount);
+// use $data with Transaction as shown above
+```
+
+### Burn
+
+Burn (destroy) tokens:
+
+```php
+use kornrunner\Ethereum\Token;
+use kornrunner\Ethereum\Transaction;
+
+$token = new Token;
+$usdt  = new Token\USDT;
+
+$amount = 50;
+$hexAmount = $token->hexAmount($usdt, $amount);
+
+$data = $token->getBurnData($hexAmount);
+// use $data with Transaction as shown above
+```
+
+### Mint
+
+Mint (create) new tokens to an address:
+
+```php
+use kornrunner\Ethereum\Token;
+use kornrunner\Ethereum\Transaction;
+
+$token = new Token;
+$usdt  = new Token\USDT;
+
+$recipient = '1a8c8adfbe1c59e8b58cc0d515f07b7225f51c72';
+$amount = 1000;
+$hexAmount = $token->hexAmount($usdt, $amount);
+
+$data = $token->getMintData($recipient, $hexAmount);
+// use $data with Transaction as shown above
 ```
 
 ## Crypto

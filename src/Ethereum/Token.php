@@ -8,8 +8,31 @@ class Token
 {
     public function getTransferData(string $toAddress, string $hexAmount): string {
         return sprintf('0x%s%s%s',
-            str_pad(Contract::SIGNATURE_TRANSFER, 32, '0', STR_PAD_RIGHT),
-            str_pad($this->sanitizeAddress($toAddress), 32, '0', STR_PAD_LEFT),
+            Contract::SIGNATURE_TRANSFER,
+            str_pad($this->sanitizeAddress($toAddress), 64, '0', STR_PAD_LEFT),
+            str_pad($this->sanitizeHex($hexAmount), 64, '0', STR_PAD_LEFT)
+        );
+    }
+
+    public function getApproveData(string $spenderAddress, string $hexAmount): string {
+        return sprintf('0x%s%s%s',
+            Contract::SIGNATURE_APPROVE,
+            str_pad($this->sanitizeAddress($spenderAddress), 64, '0', STR_PAD_LEFT),
+            str_pad($this->sanitizeHex($hexAmount), 64, '0', STR_PAD_LEFT)
+        );
+    }
+
+    public function getBurnData(string $hexAmount): string {
+        return sprintf('0x%s%s',
+            Contract::SIGNATURE_BURN,
+            str_pad($this->sanitizeHex($hexAmount), 64, '0', STR_PAD_LEFT)
+        );
+    }
+
+    public function getMintData(string $toAddress, string $hexAmount): string {
+        return sprintf('0x%s%s%s',
+            Contract::SIGNATURE_MINT,
+            str_pad($this->sanitizeAddress($toAddress), 64, '0', STR_PAD_LEFT),
             str_pad($this->sanitizeHex($hexAmount), 64, '0', STR_PAD_LEFT)
         );
     }
